@@ -24,7 +24,6 @@ class Magic8Ball():
         self.answer_list = answer_list
         self.question_history_list = []
         self.answer_history_list = []
-        return None
 
 
     # Create the __str__ method
@@ -39,10 +38,10 @@ class Magic8Ball():
     def  __str__(self):
         result = "["
         for index in range(len(self.answer_list)-1):
-            result.append("'")
-            result.append(str(self.answer_list[index]))
-            result.append("', ")
-        result.append("'"+ str(self.answer_list[len(self.answer_list)-1]) + "']")
+            result += "'"
+            result += (str(self.answer_list[index]))
+            result += "', "
+        result += "'"+ str(self.answer_list[len(self.answer_list)-1]) + "']"
         return result
 
 
@@ -70,9 +69,14 @@ class Magic8Ball():
     #               returns the answer from get_random_answer.
 
     # YOUR ANSWER HERE
-    def get_random_answer(self):
-        value = random.choice(self.answer_list)
-        return str(value)
+    def shake(self, question):
+        if question in self.question_history_list:
+            return "I've already answered that question"
+        else:
+            self.question_history_list.append(question)
+            answer = self.get_random_answer()
+            self.answer_history_list.append(answer)
+            return answer
 
 
     # Create the print_question_history method
@@ -85,6 +89,21 @@ class Magic8Ball():
     #  each on a separate line.
 
     # YOUR ANSWER HERE
+    def print_question_history(self):
+        if len(self.answer_history_list) == 0:
+            print("None yet")
+            return None
+        else:
+            result = ""
+            for ans in range(len(self.answer_history_list)):
+                for index in range(len(self.answer_list)):
+                    if (self.answer_history_list[ans] == self.answer_list[index]):
+                        result = "[" + str(index) + "] " + self.question_history_list[ans] + " - " + self.answer_history_list[ans]
+                        break
+                print(result)
+            return None
+
+
 
 
     # EXTRA POINTS
@@ -106,10 +125,34 @@ class Magic8Ball():
     def answer_frequency(self, n):
         # YOUR ANSWER BELOW
 
-        # affirmative = ["Definitely", "Most likely", "It is certain"]
-        # nagative = ["Very doubtful", "Don't count on it", "No"]
+        affirmative = ["Definitely", "Most likely", "It is certain"]
+        negative = ["Very doubtful", "Don't count on it", "No"]
 
-        print()
+        listRand = []
+
+        for repeat in range(n):
+            rand = self.get_random_answer()
+            listRand.append(rand)
+        
+        result = [*set(listRand)]
+
+        mode = -1
+        for word in result:
+            if(listRand.count(word) > mode):
+                mode = listRand.count(word)
+                modeWord = word
+            print(word + ": " + str(listRand.count(word)))
+        
+        print("")
+
+        
+        if modeWord in affirmative:
+            print("The most common answer was affirmative.")
+        elif modeWord in negative:
+            print("The most common answer was affirmative.")
+        else:
+            print("The most common answer was neither affirmative nor negative.")
+
         # if [SOME_CONDITION]:
         #     print("The most common answer was affirmative.")
         # elif [SOME_CONDITION]:
@@ -189,11 +232,12 @@ def test():
 
     # EXTRA POINTS
     # Uncomment the lines below if you attempt the extra credit!
-    # print("* Testing answer_frequency method with 200 responses")
-    # bot.answer_frequency(200)
+    print("* Testing answer_frequency method with 200 responses")
+    bot.answer_frequency(200)
 
 
 # Only run the main function if this file is being run (not imported)
 if __name__ == "__main__":
     main()
-    # test() #TODO: Uncomment when you are ready to test your Magic8Ball class
+    test() 
+    ###TODOO: Uncomment when you are ready to test your Magic8Ball class
