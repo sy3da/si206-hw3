@@ -232,8 +232,8 @@ def test():
 
     # EXTRA POINTS
     # Uncomment the lines below if you attempt the extra credit!
-    print("* Testing answer_frequency method with 200 responses")
-    bot.answer_frequency(200)
+    # print("* Testing answer_frequency method with 200 responses")
+    # bot.answer_frequency(200)
 
 
 # Only run the main function if this file is being run (not imported)
